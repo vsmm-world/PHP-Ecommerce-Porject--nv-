@@ -23,7 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     // Validate username and password (you should add more validation and sanitization)
     // This is just a basic example
-    $sql = "SELECT * FROM users WHERE user_name=?";
+    $sql = "SELECT * FROM customers WHERE username=?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("s", $username);
     $stmt->execute();

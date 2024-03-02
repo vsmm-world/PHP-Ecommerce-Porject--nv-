@@ -28,7 +28,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare SQL statement to insert data into the database
-    $sql = "INSERT INTO users (first_name, last_name, user_name, password, email, mobile_no, address) 
+    $sql = "INSERT INTO customer (first_name, last_name, user_name, password, email, mobile_no, address) 
             VALUES (?, ?, ?, ?, ?, ?, ?)";
 
     // Prepare and execute the statement

@@ -18,8 +18,46 @@ function getUserData() {
     }
 }
 
+// Function to retrieve products from the database
+function getProducts() {
+    // Connect to the database
+    $conn = new mysqli('localhost', 'username', 'password', 'cs');
+    
+    // Check the connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+    
+    // Query to retrieve products
+    $sql = "SELECT * FROM products";
+    
+    // Execute the query
+    $result = $conn->query($sql);
+    
+    // Check if any products are found
+    if ($result->num_rows > 0) {
+        // Fetch the products as an associative array
+        $products = $result->fetch_all(MYSQLI_ASSOC);
+        
+        // Close the database connection
+        $conn->close();
+        
+        // Return the products
+        return $products;
+    } else {
+        // Close the database connection
+        $conn->close();
+        
+        // Return an empty array if no products are found
+        return [];
+    }
+}
+
 // Get the data of the logged in user
 $loggedInUser = getUserData();
+
+// Get the products
+$products = getProducts();
 
 ?>
 <?php include 'header.php'; ?>
@@ -46,6 +84,16 @@ $loggedInUser = getUserData();
             <p>Not logged in</p>
             <!-- Add login/signup options here if needed -->
         <?php endif; ?>
+        
+        <!-- Display some products -->
+        <?php foreach ($products as $product): ?>
+            <div>
+                <h2><?php echo $product['name']; ?></h2>
+                <p><?php echo $product['short_description']; ?></p>
+                <p>Price: <?php echo $product['price']; ?></p>
+            </div>
+        <?php endforeach; ?>
+        
         <!-- Add your dashboard content here -->
     </main>
     <footer>
@@ -58,4 +106,3 @@ $loggedInUser = getUserData();
 </body>
 </html>
 <?php include 'footer.php'; ?>
-

@@ -58,3 +58,11 @@ CREATE TABLE admin (
     username VARCHAR(255),
     email VARCHAR(255)
 );
+
+
+
+
+INSERT INTO brand (name, short_description, owner_name) VALUES ('Brand 1', 'Short description 1', 'Owner 1'), ('Brand 2', 'Short description 2', 'Owner 2'), ('Brand 3', 'Short description 3', 'Owner 3'), ('Brand 4', 'Short description 4', 'Owner 4'), ('Brand 5', 'Short description 5', 'Owner 5');
+
+
+INSERT INTO category (name, short_description) VALUES ('Category 1', 'Description 1'), ('Category 2', 'Description 2'), ('Category 3', 'Description 3'), ('Category 4', 'Description 4'), ('Category 5', 'Description 5');
