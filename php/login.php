@@ -1,8 +1,23 @@
 <?php
 include 'header.php';
 
-// Check if the user is already logged in
-$user = getUserData();
+function getNData() {
+    // Check if the 'user_data' cookie is set
+    if (isset($_COOKIE['user_data'])) {
+        // Retrieve the user data from the cookie
+        $userData = $_COOKIE['user_data'];
+        
+        // Parse the user data (assuming it's in JSON format)
+        $user = json_decode($userData, true);
+        
+        // Return the user data
+        return $user;
+    } else {
+        // Return null if the user data is not found
+        return null;
+    }
+}
+$user = getNData();
 if ($user !== null) {
     // Redirect the user to the dashboard
     header('Location: dashboard.php');

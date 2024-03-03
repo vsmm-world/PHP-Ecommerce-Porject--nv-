@@ -1,8 +1,51 @@
 <link rel="stylesheet" href="../style.css">
+<style>
+    /* Navbar styles */
+    header {
+        background-color: grey;
+        padding: 10px;
+        color: white;
+    }
+
+    nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .company-name a {
+        font-size: 20px;
+        font-weight: bold;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .menu ul {
+        list-style-type: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+    }
+
+    .menu ul li {
+        margin-right: 10px;
+    }
+
+    .menu ul li a {
+        text-decoration: none;
+        color: #333;
+    }
+
+    .menu ul li a:hover {
+
+        color: #ff0000;
+    }
+</style>
+
 <header>
     <nav>
         <div class="company-name">
-            <a href="./">Online Cosmetic Store</a>
+            <a href="#">Online Cosmetic Store</a>
         </div>
         <div class="menu">
             <ul>

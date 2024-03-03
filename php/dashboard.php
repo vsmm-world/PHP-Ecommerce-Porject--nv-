@@ -78,6 +78,10 @@ $products = getProducts();
         .product-card h2 {
             margin-top: 0;
         }
+        .product-card img {
+            max-width: 100%;
+            height: auto;
+        }
         .product-card p {
             margin-bottom: 5px;
         }
@@ -91,27 +95,30 @@ $products = getProducts();
             border-radius: 4px;
         }
     </style>
+    <link rel="stylesheet" href="userSide.css">
 </head>
 <body>
     <header>
-        <h1>Welcome to the Cosmetic Store Dashboard</h1>
+        <h1 class="dashboard-title">Welcome to the Cosmetic Store Dashboard</h1>
     </header> 
     <main>
         <?php if ($loggedInUser !== null): ?>
-            <p>Logged in as: <?php echo $loggedInUser['first_name']; ?></p>
+            <!-- <p class="user-info">Logged in as: <?php echo $loggedInUser['first_name']; ?></p> -->
             <!-- Display additional user information if needed -->
         <?php else: ?>
-            <p>Not logged in</p>
-            <!-- Add login/signup options here if needed -->
+            <p class="user-info">Not logged in</p>
+            <?php if ($loggedInUser === null): ?>
+                <?php header("Location: login.php"); ?>
+            <?php endif; ?>
         <?php endif; ?>
         
         <!-- Display some products -->
         <?php foreach ($products as $product): ?>
             <div class="product-card">
-                <h2><?php echo $product['name']; ?></h2>
-                <img src="<?php echo $product['image_url']; ?>" alt="Product Image">
-                <p><?php echo $product['short_description']; ?></p>
-                <p>Price: <?php echo $product['price']; ?></p>
+                <h2 class="product-name"><?php echo $product['name']; ?></h2>
+                <img class="product-image" src="<?php echo $product['image_url']; ?>" alt="Product Image">
+                <p class="product-description"><?php echo $product['short_description']; ?></p>
+                <p class="product-price">Price: <?php echo $product['price']; ?></p>
                 <?php if ($loggedInUser !== null): ?>
                     <form action="../php_process/buy.php" method="post">
                         <input type="hidden" name="customer_id" value="<?php echo $loggedInUser['id']; ?>">

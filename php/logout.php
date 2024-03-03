@@ -1,3 +1,5 @@
+
+<?php
 // Start session
 session_start();
 
@@ -11,3 +13,4 @@ setcookie('user_data', '', time() - 3600, '/');
 // Redirect to login page
 header("Location: ../php/login.php");
 exit();
+?>
