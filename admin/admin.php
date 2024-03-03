@@ -21,40 +21,6 @@ $categoryResult = $conn->query($categorySql);
 $brandSql = "SELECT * FROM brand";
 $brandResult = $conn->query($brandSql);
 
-// ...
-
-
-
-
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST["delete_product"])) {
-        $id = $_POST["delete_product"];
-
-        // Delete product from the database
-        $deleteSql = "DELETE FROM products WHERE id = '$id'";
-        if ($conn->query($deleteSql) === TRUE) {
-            echo "Product deleted successfully";
-        } else {
-            echo "Error deleting product: " . $conn->error;
-        }
-    } elseif (isset($_POST["product_name"]) && isset($_POST["category"]) && isset($_POST["brand"]) && isset($_POST["price"]) && isset($_POST["description"]) && isset($_POST["image_url"])) {
-        $product_name = $_POST["product_name"];
-        $category = $_POST["category"];
-        $brand = $_POST["brand"];
-        $price = $_POST["price"];
-        $description = $_POST["short_description"];
-        $image_url = $_POST["image_url"];
-
-        // Insert new product into the database
-        $insertSql = "INSERT INTO products (name, category_id, brand_id, price, description, image_url) VALUES ('$product_name', '$category', '$brand', '$price', '$description', '$image_url')";
-        if ($conn->query($insertSql) === TRUE) {
-            echo "Product added successfully";
-        } else {
-            echo "Error adding product: " . $conn->error;
-        }
-    }
-}
 ?>
 
 <!DOCTYPE html>
@@ -89,13 +55,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($result->num_rows > 0) {
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>";
-                echo "<td>" . $row["product_name"] . "</td>";
-                echo "<td>" . $row["category"] . "</td>";
-                echo "<td>" . $row["brand"] . "</td>";
+                echo "<td>" . $row["name"] . "</td>";
+                echo "<td>" . $row["category_id"] . "</td>";
+                echo "<td>" . $row["brand_id"] . "</td>";
                 echo "<td><input type='text' value='" . $row["price"] . "'></td>";
-                echo "<td>" . $row["description"] . "</td>";
+                echo "<td>" . $row["short_description"] . "</td>";
                 echo "<td>" . $row["image_url"] . "</td>";
-                echo "<td><form method='POST'><button type='submit' name='delete_product' value='" . $row["id"] . "'>Delete</button></form></td>";
+                echo "<td>
+                        <form method='POST' action='./actions/update_prod.php'>
+                            <input type='hidden' name='product_id' value='" . $row["id"] . "'>
+                            <button type='submit' name='update_product'>Update</button>
+                            <button type='submit' name='delete_product' value='" . $row["id"] . "'>Delete</button>
+                        </form>
+                      </td>";
                 echo "</tr>";
             }
         } else {
@@ -105,28 +77,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </table>
 
     <h2>Add Product</h2>
-    <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="POST">
-        <label for="name">Product Name:</label>
-        <input type="text" name="name" id="product_name" required><br><br>
+    <form action="./actions/add_prod.php" method="POST">
+        <label for="product_name">Product Name:</label>
+        <input type="text" name="product_name" id="product_name" required><br><br>
 
+        <label for="category_id">Category:</label>
+        <select name="category_id" id="category_id" required>
+            <?php
+            if ($categoryResult->num_rows > 0) {
+                while ($categoryRow = $categoryResult->fetch_assoc()) {
+                    echo "<option value='" . $categoryRow["id"] . "'>" . $categoryRow["name"] . "</option>";
+                }
+            }
+            ?>
+        </select><br><br>
 
-        <label for="category">Category:</label>
-<select name="category" id="category" required>
-    <?php
-    if ($categoryResult->num_rows > 0) {
-        while ($categoryRow = $categoryResult->fetch_assoc()) {
-            echo "<option value='" . $categoryRow["category_id"] . "'>" . $categoryRow["name"] . "</option>";
-        }
-    }
-    ?>
-</select><br><br>
-
-        <label for="brand">Brand:</label>
-        <select name="brand" id="brand" required>
+        <label for="brand_id">Brand:</label>
+        <select name="brand_id" id="brand_id" required>
             <?php
             if ($brandResult->num_rows > 0) {
                 while ($brandRow = $brandResult->fetch_assoc()) {
-                    echo "<option value='" . $brandRow["brand_id"] . "'>" . $brandRow["name"] . "</option>";
+                    echo "<option value='" . $brandRow["id"] . "'>" . $brandRow["name"] . "</option>";
                 }
             }
             ?>
@@ -136,7 +107,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" name="price" id="price" required><br><br>
 
         <label for="short_description">Description:</label>
-        <textarea name="short_description" id="description" required></textarea><br><br>
+        <textarea name="short_description" id="short_description" required></textarea><br><br>
 
         <label for="image_url">Image URL:</label>
         <input type="text" name="image_url" id="image_url" required><br><br>
