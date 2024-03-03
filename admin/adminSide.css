@@ -1,0 +1,94 @@
+/* Navbar styles */
+.navbar {
+    background-color: #333;
+    padding: 10px;
+}
+
+.navbar a {
+    color: #fff;
+    text-decoration: none;
+    margin-right: 10px;
+}
+
+.navbar a.active {
+    font-weight: bold;
+}
+
+/* Title styles */
+.admin-title {
+    font-size: 24px;
+    margin-top: 20px;
+}
+
+/* Page title styles */
+.page-title {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+/* Form styles */
+form {
+    margin-top: 20px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+textarea {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+select {
+    width: 100%;
+    padding: 5px;
+    margin-bottom: 10px;
+}
+
+input[type="submit"] {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th,
+td {
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+}
+
+/* Delete button styles */
+.delete-button {
+    background-color: #ff0000;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}
+
+/* Update button styles */
+.update-button {
+    background-color: #333;
+    color: #fff;
+    padding: 5px 10px;
+    border: none;
+    cursor: pointer;
+}

@@ -1,4 +1,14 @@
-<?php include 'header.php'; ?>
+<?php
+include 'header.php';
+
+// Check if the user is already logged in
+$user = getUserData();
+if ($user !== null) {
+    // Redirect the user to the dashboard
+    header('Location: dashboard.php');
+    exit;
+}
+?>
 <link rel="stylesheet" href="style.css">
 
 <div class="container">

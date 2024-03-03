@@ -29,7 +29,7 @@ function getProducts() {
     }
     
     // Query to retrieve products
-    $sql = "SELECT * FROM products LIMIT 5";
+    $sql = "SELECT * FROM products";
     
     // Execute the query
     $result = $conn->query($sql);
