@@ -11,8 +11,13 @@ if ($conn->connect_error) {
 }
 
 // Fetch products from the database
-$sql = "SELECT * FROM products";
+// Fetch products from the database with brand and category names
+$sql = "SELECT products.*, brand.name AS brand_name, category.name AS category_name 
+    FROM products 
+    INNER JOIN brand ON products.brand_id = brand.id 
+    INNER JOIN category ON products.category_id = category.id";
 $result = $conn->query($sql);
+
 // Fetch categories from the database
 $categorySql = "SELECT * FROM category";
 $categoryResult = $conn->query($categorySql);
@@ -53,22 +58,31 @@ $brandResult = $conn->query($brandSql);
         </tr>
         <?php
         if ($result->num_rows > 0) {
+
             while ($row = $result->fetch_assoc()) {
                 echo "<tr>";
                 echo "<td>" . $row["name"] . "</td>";
-                echo "<td>" . $row["category_id"] . "</td>";
-                echo "<td>" . $row["brand_id"] . "</td>";
-                echo "<td><input type='text' value='" . $row["price"] . "'></td>";
+                echo "<td>" . $row["category_name"] . "</td>";
+                echo "<td>" . $row["brand_name"] . "</td>";
+                echo "<td>" . $row["price"] . "</td>";
                 echo "<td>" . $row["short_description"] . "</td>";
-                echo "<td>" . $row["image_url"] . "</td>";
                 echo "<td>
-                        <form method='POST' action='./actions/update_prod.php'>
+                        <form method='POST' action='./actions/delete_prod.php'>
                             <input type='hidden' name='product_id' value='" . $row["id"] . "'>
-                            <button type='submit' name='update_product'>Update</button>
-                            <button type='submit' name='delete_product' value='" . $row["id"] . "'>Delete</button>
+                            <button type='submit' name='delete_product'>Delete</button>
                         </form>
                       </td>";
                 echo "</tr>";
+
+                // Separate form for updating data
+                echo "<td colspan='7'>";
+                echo "<form method='POST' action='./actions/update_prod.php'>";
+                echo "<input type='hidden' name='product_id' value='" . $row["id"] . "'>";
+                echo "<label for='update_price'>Update Price:</label>";
+                echo "<input type='text' name='update_price' id='update_price' value='" . $row["price"] . "' required>";
+                echo "<input type='submit' value='Submit'>";
+                echo "</form>";
+                echo "</td>";
             }
         } else {
             echo "<tr><td colspan='7'>No products found</td></tr>";
