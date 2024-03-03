@@ -1,4 +1,6 @@
 <?php
+include 'header.php';
+
 // Include the necessary database connection code here
 $servername = "localhost";
 $username = "root";
@@ -37,10 +39,12 @@ $userData = getUserData();
 // Check if user data is available
 if ($userData) {
     // Display user details
-    echo "User ID: " . $userData['id'] . "<br>";
-    echo "First Name: " . $userData['first_name'] . "<br>";
-    echo "Last Name: " . $userData['last_name'] . "<br>";
-    echo "Email: " . $userData['email'] . "<br>";
+    echo '<div class="user-details">';
+    echo '<p class="user-id">User ID: ' . $userData['id'] . '</p>';
+    echo '<p class="user-first-name">First Name: ' . $userData['first_name'] . '</p>';
+    echo '<p class="user-last-name">Last Name: ' . $userData['last_name'] . '</p>';
+    echo '<p class="user-email">Email: ' . $userData['email'] . '</p>';
+    echo '</div>';
     
     // Fetch and display user's purchase history from the database
     $userId = $userData['id'];
@@ -63,10 +67,9 @@ if ($userData) {
                 echo '</div>';
                 echo '</div>';
             }
-         
-    } else {
-        echo 'Error executing query: ' . mysqli_error($connection);
-    }
+        } else {
+            echo 'Nothing found in the purchase history.';
+        }
     } else {
         echo "Error executing query: " . mysqli_error($connection);
     }
@@ -74,4 +77,7 @@ if ($userData) {
 } else {
     echo "User data not found.";
 }
+
+include 'footer.php';
+
 ?>
