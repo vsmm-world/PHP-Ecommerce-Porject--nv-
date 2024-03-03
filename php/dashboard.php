@@ -21,7 +21,7 @@ function getUserData() {
 // Function to retrieve products from the database
 function getProducts() {
     // Connect to the database
-    $conn = new mysqli('localhost', 'username', 'password', 'cs');
+    $conn = new mysqli('localhost', 'root', '', 'cs');
     
     // Check the connection
     if ($conn->connect_error) {
@@ -29,7 +29,7 @@ function getProducts() {
     }
     
     // Query to retrieve products
-    $sql = "SELECT * FROM products";
+    $sql = "SELECT * FROM products LIMIT 5";
     
     // Execute the query
     $result = $conn->query($sql);
@@ -70,6 +70,26 @@ $products = getProducts();
     <!-- Include any necessary CSS or JavaScript files here -->
     <style>
         /* Add your CSS styles here */
+        .product-card {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+        .product-card h2 {
+            margin-top: 0;
+        }
+        .product-card p {
+            margin-bottom: 5px;
+        }
+        .buy-button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 5px 10px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -87,10 +107,18 @@ $products = getProducts();
         
         <!-- Display some products -->
         <?php foreach ($products as $product): ?>
-            <div>
+            <div class="product-card">
                 <h2><?php echo $product['name']; ?></h2>
+                <img src="<?php echo $product['image_url']; ?>" alt="Product Image">
                 <p><?php echo $product['short_description']; ?></p>
                 <p>Price: <?php echo $product['price']; ?></p>
+                <?php if ($loggedInUser !== null): ?>
+                    <form action="../php_process/buy.php" method="post">
+                        <input type="hidden" name="customer_id" value="<?php echo $loggedInUser['id']; ?>">
+                        <input type="hidden" name="product_id" value="<?php echo $product['id']; ?>">
+                        <input type="submit" class="buy-button" value="Buy">
+                    </form>
+                <?php endif; ?>
             </div>
         <?php endforeach; ?>
         

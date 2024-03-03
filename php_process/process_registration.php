@@ -40,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         if ($stmt->execute()) {
             // Registration successful
             // Redirect to the login page
-            header("Location: login.php");
+            header("Location: ../php/login.php");
             exit();
         } else {
             // Something went wrong with the SQL execution
